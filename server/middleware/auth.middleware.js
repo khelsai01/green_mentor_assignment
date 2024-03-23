@@ -13,6 +13,7 @@ const auth =(req,res,next)=>{
                     
                     req.body.username = decode.username;
                     req.body.userId = decode.userId
+                    // console.log(decode)
                     next();
                 }
             })
