@@ -3,6 +3,8 @@ import axios from "axios"
 import { ERROR, USER_LOGIN} from "../actionType"
 
  export const URL = `https://green-mentor-server.onrender.com`
+// export const URL = `http://localhost:8080`
+
 
 
 export const getLogin=(obj)=>(dispatch)=>{
@@ -10,7 +12,7 @@ export const getLogin=(obj)=>(dispatch)=>{
     try {
         axios.post(`${URL}/users/login`,obj).then((data)=>
         {
-            // console.log(data.data)
+           
             dispatch({type:USER_LOGIN,payload:data.data.token})
             localStorage.setItem("token",data.data.token)
             alert(`${data.data.message}`)
@@ -25,7 +27,7 @@ export const getRegister=(obj)=>(dispatch)=>{
 
     try {
         axios.post(`${URL}/users/register`,obj).then((data)=>{
-            // console.log(data)
+          
             return alert(`${data.data.user.username} has been login successful !`)
         })
 

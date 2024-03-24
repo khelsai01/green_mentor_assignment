@@ -1,18 +1,26 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { shallowEqual, useDispatch, useSelector } from 'react-redux'
 import { deleteTask, fetchTask } from '../Redux/task/action'
 import AddTasks from './AddTasks'
+import TaskaCard from './TaskaCard'
+import Edit from './Edit'
+
+
 
 const Tasks = () => {
   const dispatch = useDispatch()
-  const { tasks, token } = useSelector((store) => {
+  const { tasks, token,isAuth } = useSelector((store) => {
     return {
       tasks: store.taskReducer.tasks,
-      token: store.authReducer.token
+      token: store.authReducer.token,
+      isAuth: store.authReducer.isAuth
     }
-  }, shallowEqual)
+  }, shallowEqual);
 
-  const getTask =()=>{
+
+const [editdata, setEditdata] =useState([]);
+const [flag, setFlag] = useState(false);
+ const getTask =()=>{
     dispatch(fetchTask(token))
   }
   useEffect(() => {
@@ -21,34 +29,37 @@ const Tasks = () => {
 
   const handleDelete =(id)=>{
   
-    dispatch(deleteTask(id))
+    dispatch(deleteTask(id,token))
     getTask()
   }
+
+  const handleEdit=(id)=>{
+    
+    let editFilter = tasks?.find((el)=>el._id==id)
+    setEditdata(editFilter)
+    setFlag(pre=>!pre)
+console.log(id)
+  }
+
   return (
     <div>
+      {isAuth ?
       <div>
-        <AddTasks getTask={getTask}/>
+        {flag? <Edit editdata={editdata} setFlag={setFlag} />:
+        
+        <AddTasks getTask={getTask} />
+        }
       </div>
+      :<div className='w-full flex justify-center my-9'>
+      
+        <h1 className='text-3xl font-bold text-[#37464f] text-center' >📝Welcome to the Tasks Managment app📜</h1>
+      </div>
+    }
 
-      <div className="w-full md:w-3/4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 mx-auto">
+      <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 mx-auto">
 
 {tasks?.map((task) => (
-  <div key={task._id} className="flex items-center justify-between width-40% gap-2 bg-gray-100 p-4 rounded-md mb-2 mt-2">
-
-    <div className="flex flex-col justify-start">
-      <p className="text-lg font-semibold">{task.title}</p>
-      <p className="text-gray-500">{task.description}</p>
-    </div>
-    <div className='flex gap-2'>
-      <button className='text-white bg-green-500 px-4 py-2 rounded-md shadow ml-auto font-bold '>Edit</button>
-    <button
-      onClick={() => handleDelete(task._id)}
-      className="text-white bg-red-500 px-4 py-2 rounded-md shadow ml-auto font-bold "
-    >
-      Delete
-    </button>
-      </div>
-  </div>
+  <TaskaCard  key={task._id} {...task} handleDelete={handleDelete}  handleEdit={handleEdit} />
 ))}
 </div>
 
