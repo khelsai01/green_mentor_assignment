@@ -38,7 +38,7 @@ green_mentor_assignment/
 
 
 ## Video Walkthrough of the project
-[Appliction Video](https://drive.google.com/file/d/1_L_LZHosLnmztHKpaZ9V8yMN98LqC-OM/view?usp=sharing)
+[Appliction Video](https://drive.google.com/file/d/1FA_cjmZj-aHS5bmeA3wdXAWf9r7XNKw-/view?usp=sharing)
 
 
 ## Features
